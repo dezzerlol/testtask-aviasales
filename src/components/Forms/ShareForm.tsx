@@ -2,6 +2,7 @@ import { SHARELINKS } from '@/consts/shareLinks'
 import { Socials, useFormStore } from '@/store/formStore'
 import React, { useState } from 'react'
 import { shallow } from 'zustand/shallow'
+import ErrorText from './ErrorText'
 import FormWrapper from './FormWrapper'
 
 const ShareForm = () => {
@@ -45,13 +46,15 @@ const ShareForm = () => {
       number={2}
       isLoading={isLoading}
       title='Поделись с друзьями'
-      onClick={onSubmit}>
+      onSubmit={onSubmit}>
       <div className='w-full h-16'>
         <div className='w-full justify-between flex mt-1'>
           {SHARELINKS.map((item) => (
             <div key={item.id}>
               <button
                 onClick={() => handleClickSocial(item.link, item.value)}
+                type='button'
+                disabled={currentForm !== 'share'}
                 className={`w-[2vw] h-[2vw] flex items-center justify-center rounded-full bg-gradient-to-br ${
                   sharedSocials.includes(item.value) ? 'bg-gray-600 cursor-default' : item.bgcolor
                 }`}>
@@ -60,7 +63,7 @@ const ShareForm = () => {
             </div>
           ))}
         </div>
-        {isError && <div className='text-red-500 text-[0.6vw] mt-2'>Надо все же поделиться</div>}
+        {isError && <ErrorText>Надо все же поделиться</ErrorText>}
       </div>
     </FormWrapper>
   )

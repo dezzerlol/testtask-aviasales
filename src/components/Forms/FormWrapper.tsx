@@ -8,13 +8,17 @@ type FormWrapperProps = {
   title: string
   children: React.ReactNode
   buttonText: string
-  onClick: () => void
-  isLoading: boolean
+  onSubmit: () => void
+  isLoading?: boolean
 }
 
-const FormWrapper = ({ number, title, children, buttonText, onClick, isDisabled, isLoading }: FormWrapperProps) => {
+const FormWrapper = ({ number, title, children, buttonText, onSubmit, isDisabled, isLoading }: FormWrapperProps) => {
   return (
-    <div
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        onSubmit()
+      }}
       className={`w-[17vw] bg-[#050C30] border-[1px] border-gray-600 p-[0.9vw] rounded-[0.5vw] flex flex-col gap-[0.6vw]  ${
         isDisabled ? 'opacity-50' : 'shadow-2xl shadow-teal-300'
       }`}>
@@ -26,10 +30,10 @@ const FormWrapper = ({ number, title, children, buttonText, onClick, isDisabled,
       </div>
 
       {children}
-      <Button onClick={onClick} disabled={isDisabled}>
+      <Button onClick={onSubmit} disabled={isDisabled} type='submit'>
         {!isLoading ? buttonText : <Loader />}
       </Button>
-    </div>
+    </form>
   )
 }
 

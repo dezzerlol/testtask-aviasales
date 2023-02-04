@@ -1,12 +1,12 @@
 import { useFormStore } from '@/store/formStore'
 import React, { useState } from 'react'
+import ErrorText from './ErrorText'
 import FormWrapper from './FormWrapper'
 
 const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/
 
 const EmailForm = () => {
   const [isError, setIsError] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const { email, currentForm, apiError, setEmail, setForm, setApiError } = useFormStore((state) => ({
     email: state.email,
     currentForm: state.currentForm,
@@ -42,8 +42,7 @@ const EmailForm = () => {
       buttonText='Я оставил'
       number={1}
       title='Оставь актаульный email'
-      onClick={handleSubmit}
-      isLoading={isLoading}>
+      onSubmit={handleSubmit}>
       <div className='w-full h-16'>
         <input
           value={email}
@@ -57,7 +56,7 @@ const EmailForm = () => {
           }  `}
         />
         {isError && <div className='opacity-50 text-white text-[0.6vw] mt-1'>Неверный формат почты</div>}
-        {apiError && <div className='text-red-500 text-[0.6vw] mt-1'>{apiError}</div>}
+        {apiError && <ErrorText>{apiError}</ErrorText>}
       </div>
     </FormWrapper>
   )
