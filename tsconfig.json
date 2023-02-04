@@ -20,7 +20,10 @@
     "paths": {
       "@/assets/*":["assets/*"],
       "@/store/*":["store/*"],
-      "@/components/*":["components/*"]
+      "@/components/*":["components/*"],
+      "@/services/*": ["services/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/consts/*": ["consts/*"]
     }
   },
   "include": ["src"],

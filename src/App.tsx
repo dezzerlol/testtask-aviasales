@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import CompanyLogo from './components/CompanyLogo'
 import RocketLogo from './components/RocketLogo'
-import Tabs from './components/Tabs'
+import Tabs from './components/Tabs/Tabs'
 
 function App() {
   return (

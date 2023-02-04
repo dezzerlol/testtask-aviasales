@@ -1,61 +1,41 @@
-import { useFormStore } from '@/store/formStore'
-import { useState } from 'react'
-import { FaFacebookF } from 'react-icons/fa'
-import { IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5'
-import { SlSocialVkontakte } from 'react-icons/sl'
+import { SHARELINKS } from '@/consts/shareLinks'
+import { Socials, useFormStore } from '@/store/formStore'
+import React, { useState } from 'react'
+import { shallow } from 'zustand/shallow'
 import FormWrapper from './FormWrapper'
-
-const SHARELINKS = [
-  {
-    id: 3,
-    icon: <FaFacebookF size='1.2vw' color='white' />,
-    link: 'https://www.facebook.com/',
-    bgcolor: 'from-[#70ADFF] via-[#1977F3] to-[#064BA6]',
-  },
-  {
-    id: 4,
-    icon: <SlSocialVkontakte size='1.2vw' color='white' />,
-    link: 'https://vk.com/',
-    bgcolor: 'from-[#60AAFF] via-[#2787F5] to-[#005CC6]',
-  },
-  {
-    id: 2,
-    icon: <IoLogoTwitter size='1.2vw' color='white' />,
-    link: 'https://twitter.com/',
-    bgcolor: 'from-[#73CAFF] via-[#1DA1F2] to-[#007CC8]',
-  },
-  {
-    id: 1,
-    icon: <IoLogoInstagram size='1.2vw' color='white' />,
-    link: 'https://www.instagram.com/',
-    bgcolor: 'from-[#D82D7E] via-[#DF406C] to-[#FA8F21]',
-  },
-]
 
 const ShareForm = () => {
   const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { isShared, currentForm, setIsShared, setTab } = useFormStore((state) => ({
-    isShared: state.isShared,
-    setForm: state.setForm,
-    currentForm: state.currentForm,
-    setIsShared: state.setIsShared,
-    setTab: state.setTab,
-  }))
+  const { isShared, currentForm, sharedSocials, setIsShared, handleSubmit } = useFormStore(
+    (state) => ({
+      isShared: state.isShared,
+      sharedSocials: state.sharedSocials,
+      currentForm: state.currentForm,
+      setIsShared: state.setIsShared,
+      handleSubmit: state.handleSubmit,
+    }),
+    shallow
+  )
 
-  const handleClickSocial = (url: string) => {
-    setIsShared()
+  const handleClickSocial = (url: string, value: Socials) => {
+    if (sharedSocials.includes(value)) return
+
+    setIsShared(value)
     setIsError(false)
     window.open(url, '_blank')?.focus()
   }
 
-  const handleSubmit = () => {
+  const onSubmit = async () => {
     if (!isShared) {
       setIsError(true)
       return
     }
 
-    setTab('finish')
+    setIsLoading(true)
+    await handleSubmit()
+    setIsLoading(false)
   }
 
   return (
@@ -63,15 +43,18 @@ const ShareForm = () => {
       isDisabled={currentForm !== 'share'}
       buttonText='Я поделился'
       number={2}
+      isLoading={isLoading}
       title='Поделись с друзьями'
-      onClick={handleSubmit}>
+      onClick={onSubmit}>
       <div className='w-full h-16'>
         <div className='w-full justify-between flex mt-1'>
           {SHARELINKS.map((item) => (
             <div key={item.id}>
               <button
-                onClick={() => handleClickSocial(item.link)}
-                className={`w-[2vw] h-[2vw] flex items-center justify-center rounded-full bg-gradient-to-br ${item.bgcolor}`}>
+                onClick={() => handleClickSocial(item.link, item.value)}
+                className={`w-[2vw] h-[2vw] flex items-center justify-center rounded-full bg-gradient-to-br ${
+                  sharedSocials.includes(item.value) ? 'bg-gray-600 cursor-default' : item.bgcolor
+                }`}>
                 {item.icon}
               </button>
             </div>
@@ -83,4 +66,4 @@ const ShareForm = () => {
   )
 }
 
-export default ShareForm
+export default React.memo(ShareForm)

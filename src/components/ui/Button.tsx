@@ -9,7 +9,7 @@ const Button = ({ children, disabled, ...props }: ButtonProps) => {
     <button
       {...props}
       disabled={disabled}
-      className={`w-full min-w-[12vw] h-[3vw] tracking-wide font-black text-[1vw] text-white rounded-[0.8vw]
+      className={`w-full min-w-[12vw] h-[3vw] tracking-wide font-black text-[1vw] text-white rounded-[0.8vw] flex items-center justify-center
       default-button-gradient 
       ${!disabled && 'hover:hover-button-gradient'}
       ${!disabled && 'active:pressed-button-gradient'}

@@ -1,4 +1,5 @@
 import React from 'react'
+import Loader from '../ui/Loader'
 import Button from '../ui/Button'
 
 type FormWrapperProps = {
@@ -8,9 +9,10 @@ type FormWrapperProps = {
   children: React.ReactNode
   buttonText: string
   onClick: () => void
+  isLoading: boolean
 }
 
-const FormWrapper = ({ number, title, children, buttonText, onClick, isDisabled }: FormWrapperProps) => {
+const FormWrapper = ({ number, title, children, buttonText, onClick, isDisabled, isLoading }: FormWrapperProps) => {
   return (
     <div
       className={`w-[17vw] bg-[#050C30] border-[1px] border-gray-600 p-[0.9vw] rounded-[0.5vw] flex flex-col gap-[0.6vw]  ${
@@ -25,7 +27,7 @@ const FormWrapper = ({ number, title, children, buttonText, onClick, isDisabled 
 
       {children}
       <Button onClick={onClick} disabled={isDisabled}>
-        {buttonText}
+        {!isLoading ? buttonText : <Loader />}
       </Button>
     </div>
   )
