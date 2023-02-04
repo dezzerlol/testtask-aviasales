@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Inter;
+    font-weight: 400;
+    src: url('assets/Inter-Regular.ttf');
+  }
+  @font-face {
+    font-family: Inter;
+    font-weight: 700;
+    src: url('assets/Inter-Bold.ttf');
+  }
+  @font-face {
+    font-family: Inter;
+    font-weight: 900;
+    src: url('assets/Inter-Black.ttf');
+  }
+}
+
+* {
+  font-family: Inter, sans-serif;
+}
+
+@layer utilities {
+  .default-button-gradient {
+    background: linear-gradient(
+      90deg,
+      rgb(47, 183, 88) 0%,
+      rgb(47, 183, 88) 0.01%,
+      rgb(36, 166, 115) 50%,
+      rgb(24, 133, 172) 100%
+    );
+  }
+
+  .hover-button-gradient {
+    background: linear-gradient(
+      90deg,
+      rgb(0, 186, 226) 0%,
+
+      rgb(0, 71, 255) 100%
+    );
+  }
+
+  .pressed-button-gradient {
+    background: linear-gradient(90deg, rgb(0, 87, 255) 0%, rgb(67, 76, 156, 0.5) 100%);
+  }
+}
